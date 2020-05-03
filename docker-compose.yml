@@ -8,9 +8,13 @@ services:
     ports:
       - "3306:3306"
     container_name: databasemysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ProductEngg
+      MYSQL_PASSWORD: root
     networks:
       - balaweblognetwork
-  
+
   # container for coupon serice
   couponservice:
       build: 
@@ -18,12 +22,41 @@ services:
         context:  "./couponservice"
       ports:
        - "8001:8001"
+      container_name: couponservice
       depends_on:
         - databasemysql
       networks:
         - balaweblognetwork
       volumes:
         - balaweblogvolume:/var/lib
+
+  # container for product serice
+  productservice:
+    build: 
+      dockerfile: Dockerfile
+      context:  "./productservice"
+    ports:
+     - "8002:8002"
+    container_name: productservice
+    depends_on:
+      - databasemysql
+    networks:
+      - balaweblognetwork
+    volumes:
+      - balaweblogvolume:/var/lib
+
+  # enable eureka server for service discovery
+  eurekaserver:
+    build: 
+      dockerfile: Dockerfile
+      context:  "./eurekaserver"
+    ports:
+     - "8761:8761"
+    container_name: eurekaserver
+    networks:
+      - balaweblognetwork
+    volumes:
+      - balaweblogvolume:/var/lib
 
 networks:
   balaweblognetwork:

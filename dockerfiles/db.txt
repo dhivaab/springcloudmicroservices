@@ -1,3 +1,5 @@
+table creation
+-----------------
 create table coupon(id int auto_increment, code varchar(20), discount decimal(8,3), exp_date varchar(100), primary key(id));
 
 
@@ -6,11 +8,61 @@ create table coupon(id int auto_increment, code varchar(20), discount decimal(8,
 
 
 
-
-
+docker commands 
+--------------------
 docker exec -it mysql-dockers bash
 mysql -u root -p
 Then enter the password as "root"
 create database ProductEngg;
+
+
+docker run commands
+---------------------
+
+docker-compose up --build
+
+
+
+
+End points
+-----------
+
+eureka server - http://localhost:8761
+coupon service - http://localhost:8001
+product service - http://localhost:8002
+
+
+requests
+---------
+A) Product Service
+--------------------
+
+1) Post Request - http://localhost:8002/api/v1/productservice/product
+
+{
+    "name": "test",
+    "description": "lalithambigai",
+    "price": 22.2
+}
+
+2) Get Request - http://localhost:8002/api/v1/productservice/product/1
+
+
+B) Coupon Service
+---------------------
+
+1) Post Request - http://localhost:8001/api/v1/couponservice/coupon
+
+{
+    "code": "lalithambigai",
+    "discount": 22.2,
+    "expdate": "rrrrrr"
+}
+
+
+2) Get Request - http://localhost:8001/api/v1/couponservice/coupon/lalithambigai
+
+
+
 
 
