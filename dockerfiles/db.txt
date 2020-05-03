@@ -1,0 +1,16 @@
+create table coupon(id int auto_increment, code varchar(20), discount decimal(8,3), exp_date varchar(100), primary key(id));
+
+
+
+ create table product( id int auto_increment, name varchar(20), description varchar(100), price decimal(8,3), primary key(id) );
+
+
+
+
+
+docker exec -it mysql-dockers bash
+mysql -u root -p
+Then enter the password as "root"
+create database ProductEngg;
+
+

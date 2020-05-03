@@ -1,0 +1,16 @@
+version: '3.0'
+services:
+  # creating my sql database.
+  databasemysql:
+    image: mysql:latest
+    restart: always
+    ports: 
+      - '3306:3306'
+    expose: 
+      - '3306'
+    container_name: mysql-dockers
+    network_mode: host
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cricketdb
+      MYSQL_PASSWORD: root

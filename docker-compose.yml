@@ -1,0 +1,32 @@
+# Dockerfile has been added in all micro-services, you need to dockerize all micro-services and add docker-compose.yml file
+version: "2.1"
+services:
+
+# creating my sql database.
+  databasemysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    container_name: databasemysql
+    networks:
+      - balaweblognetwork
+  
+  # container for coupon serice
+  couponservice:
+      build: 
+        dockerfile: Dockerfile
+        context:  "./couponservice"
+      ports:
+       - "8001:8001"
+      depends_on:
+        - databasemysql
+      networks:
+        - balaweblognetwork
+      volumes:
+        - balaweblogvolume:/var/lib
+
+networks:
+  balaweblognetwork:
+    driver: bridge
+volumes:
+  balaweblogvolume:
