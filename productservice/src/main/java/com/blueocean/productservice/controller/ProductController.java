@@ -13,6 +13,7 @@ import com.blueocean.productservice.model.Coupon;
 import com.blueocean.productservice.model.Product;
 import com.blueocean.productservice.repo.ProductRepository;
 import com.blueocean.productservice.restclient.couponclient;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 @RequestMapping(path = "/api/v1/productservice")
@@ -25,10 +26,15 @@ public class ProductController {
 	couponclient couponclient;
 
 	@PostMapping(path = "/product")
+	@HystrixCommand(fallbackMethod = "createfallback")
 	public Product create(@RequestBody Product product) {
 		Coupon coupon = couponclient.getCoupon(product.getDescription());
 		product.setName(coupon.getCode());
 		return productrepo.save(product);
+	}
+
+	public Product createfallback(Product product) {
+		return new Product();
 	}
 
 	@GetMapping(path = "/product/{id}")

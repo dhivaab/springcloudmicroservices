@@ -22,7 +22,11 @@ docker run commands
 docker-compose up --build
 
 
+docker network and volume creation
+-----------------------------------
 
+docker network create balaweblognetwork
+docker volume create --name=balaweblogvolume
 
 End points
 -----------
@@ -30,7 +34,7 @@ End points
 eureka server - http://localhost:8761
 coupon service - http://localhost:8001
 product service - http://localhost:8002
-
+zuul api gateway proxy - http://localhost:8765
 
 requests
 ---------
@@ -61,6 +65,30 @@ B) Coupon Service
 
 
 2) Get Request - http://localhost:8001/api/v1/couponservice/coupon/lalithambigai
+
+
+
+
+C) API Gateway Zuul Proxy - Request
+
+
+1) http://localhost:8765/couponservice/api/v1/couponservice/coupon/lalithambigai
+GET Requst
+
+2) http://localhost:8765/couponservice/api/v1/couponservice/coupon
+POST Reqquest
+
+{
+    "code": "ramya",
+    "discount": 22.2,
+    "expdate": "rrrrrr"
+}
+
+3) http://localhost:8765/productservice/api/v1/productservice/product/1
+GET request
+
+
+for each request - service name should be appended since we are directly hitting the gateway
 
 
 

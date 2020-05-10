@@ -58,6 +58,46 @@ services:
     volumes:
       - balaweblogvolume:/var/lib
 
+  
+  # enable zuulproxy for api gateway 
+  zuulproxy:
+    build: 
+      dockerfile: Dockerfile
+      context:  "./zuulproxy"
+    ports:
+     - "8765:8765"
+    container_name: zuulproxy
+    networks:
+      - balaweblognetwork
+    volumes:
+      - balaweblogvolume:/var/lib
+  
+  # zipkin for distrubuted tracking dashboard
+
+  zipkin:
+    image: openzipkin/zipkin-slim
+    container_name: zipkin
+    ports:
+      - 9411:9411
+    networks:
+      - balaweblognetwork
+    volumes:
+      - balaweblogvolume:/var/lib
+
+
+  # config server 
+  configserver:
+    build: 
+      dockerfile: Dockerfile
+      context:  "./configserver"
+    ports:
+    - "8888:8888"
+    container_name: configserver
+    networks:
+      - balaweblognetwork
+    volumes:
+      - balaweblogvolume:/var/lib 
+
 networks:
   balaweblognetwork:
     driver: bridge
