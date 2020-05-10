@@ -40,6 +40,7 @@ services:
     container_name: productservice
     depends_on:
       - databasemysql
+      - configserver
     networks:
       - balaweblognetwork
     volumes:
@@ -93,6 +94,18 @@ services:
     ports:
     - "8888:8888"
     container_name: configserver
+    networks:
+      - balaweblognetwork
+    volumes:
+      - balaweblogvolume:/var/lib 
+
+  # spring cloud bus - rabbitmq
+  rabbitmq:
+    image: 'rabbitmq:3.6-management-alpine'
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
     networks:
       - balaweblognetwork
     volumes:
